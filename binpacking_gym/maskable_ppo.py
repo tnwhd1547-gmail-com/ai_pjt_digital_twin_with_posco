@@ -25,10 +25,10 @@ model = MaskablePPO.load('C:/workspace/pba/r2dm/ai_pjt_digital_twin_with_posco/b
 # model.save('C:/workspace/pba/r2dm/binpacking_gym/model/mask_ppo_v4_2')
 
 ## 아래 주석 풀었음
-model.learn(int(2e4), progress_bar=True)
+model.learn(int(2e5), progress_bar=True)
 
 # model.save('./model/mask_ppo1')
-model.save('C:/workspace/pba/r2dm/ai_pjt_digital_twin_with_posco/binpacking_gym/model/mask_ppo_v4_2')
+model.save('C:/workspace/pba/r2dm/ai_pjt_digital_twin_with_posco/binpacking_gym/model/mask_ppo_2e6_v0')
 
 # model = MaskablePPO.load('./model/mask_ppo1', env)
 # model.get_env()
