@@ -1,10 +1,11 @@
 import sys
 sys.path.append('./binpacking_posco/envs/')
 import numpy as np
-import gym
 from gym import spaces
 from random import choice
 from copy import copy
+##maskableppo 하는데 rew, len이 안나와서 수정함
+from .binpacking_posco_v0 import binpacking_posco_v0
 """
 가장 간단한 환경
 Product : Random
@@ -13,7 +14,7 @@ Product : Random
 불가능 : -1
 """
 ##maskable ppo용 v0
-class binpacking_posco_v00(gym.Env):
+class binpacking_posco_v00(binpacking_posco_v0):
     """
     Custom Env for 2D-bin Packing
     """
@@ -21,8 +22,9 @@ class binpacking_posco_v00(gym.Env):
     products_list = [(1,1), (2,2), (3,3)] # for random sampling
     
     # reward_range = (0, 100)
-    metadata = {'mode': ['human']}
-    spec = "EnvSpec"
+    # 지웠음 아래 두개
+    # metadata = {'mode': ['human']}
+    # spec = "EnvSpec"
     
     
     def __init__(self, **kwargs):
@@ -35,29 +37,27 @@ class binpacking_posco_v00(gym.Env):
         print_Map : Action시 마다 Map 출력 / True (bool)
         rendering : False / (bool)
         """
-        super(binpacking_posco_v00, self).__init__()
+        super(binpacking_posco_v00, self).__init__(**kwargs)
         # Params
-        self.ct2_threshold = kwargs.get('ct2_threshold', 20) # 불가능한 행동의 제한 수
-        self.mapsize = kwargs.get('mapsize', [10, 10])
-        self.print_Map = kwargs.get('print_Map', True)
-        self.threshold = kwargs.get('threshold', 0.6) # Default = 0.6 # 이 비율의 공간을 채웠을 때 더 많은 리워드를 줌
+        #여기부터 주석처리 했음
+        # self.ct2_threshold = kwargs.get('ct2_threshold', 20) # 불가능한 행동의 제한 수
+        # self.mapsize = kwargs.get('mapsize', [10, 10])
+        # self.print_Map = kwargs.get('print_Map', True)
+        # self.threshold = kwargs.get('threshold', 0.6) # Default = 0.6 # 이 비율의 공간을 채웠을 때 더 많은 리워드를 줌
+        # # For ending of episode
+        # self.filled_map = 0 
+        # self.ct2 = 0
+        # # Product's Size
+        # self.random_product()
+        # # Map of warehouse
+        # self.Map = np.zeros(self.mapsize, dtype=int)
+        # self.max_x = self.mapsize[0]-1
+        # self.max_y = self.mapsize[1]-1
+        # self.state = None
+        # self.actions_grid = [[i, j] for j in range (self.max_x+1) for i in range(self.max_y+1)]
         
-        # For ending of episode
-        self.filled_map = 0 
-        self.ct2 = 0
-        
-        # Product's Size
-        self.random_product()
-        
-        # Map of warehouse
-        self.Map = np.zeros(self.mapsize, dtype=int)
-        self.max_x = self.mapsize[0]-1
-        self.max_y = self.mapsize[1]-1
-        
-        self.state = None
-        self.actions_grid = [[i, j] for j in range (self.max_x+1) for i in range(self.max_y+1)]
+        ### 여기부터 있어야 되는 것들
         self.action_space = spaces.Discrete(len(self.actions_grid)+1)
-        
         # Observation space
         ## Map + Max box size
         low = np.array([0 for _ in range(len(self.actions_grid))] + [0, 0]) 
@@ -72,21 +72,15 @@ class binpacking_posco_v00(gym.Env):
         self.filled_map += self.width * self.length
     
     def int_action_to_grid(self, action):
-        try:
-            self.actions_grid[action]
-        except:
-            # action=self.int_action_to_grid(action)
-            print(action, type(action))
         return (self.actions_grid[action])
     
     def available_act(self, action):
         """
         선택한 Action이 시행 가능한지 확인
         """        
-        if type(action)==type(3):
-            action = self.int_action_to_grid(action)
         # print("available_action", action)
-        self.ct2 += 1 # count unavailable action
+        # 요놈도 주석처리 했음 
+        # self.ct2 += 1 # count unavailable action
         if action[0] + self.length > self.max_x + 1:
             return False
         if action[1] + self.width > self.max_y + 1:
@@ -95,7 +89,7 @@ class binpacking_posco_v00(gym.Env):
             return False
         # print('map : ', self.Map)
         
-        if self.Map[action[0]:(self.length), action[1]:(action[1] + self.width)].sum() > 0:
+        if self.Map[action[0]:(action[0] + self.length), action[1]:(action[1] + self.width)].sum() > 0:
             return False
         # if self.Map[action[0]:(action[0] + self.length), action[1]:(action[1] + self.width)].sum() > 0:
         #     return False
@@ -126,44 +120,47 @@ class binpacking_posco_v00(gym.Env):
 
             return self.state, 0, False, {}
         
+        action = self.int_action_to_grid(action)
+        
         terminated = bool(
             self.ct2 == self.ct2_threshold
             or self.filled_map > 80 # 80% 이상
         )
-        try:
-            action[0]
-        except:
-            action=self.int_action_to_grid(action)
+        
+        # 원래 아래 코든데 위로 바꿈 rew 안나와서 
+        # try:
+        #     action[0]
+        # except:
+        #     action=list(divmod(action,10))
         score = 0
         if not terminated:
             if self.available_act(action):
                 self.map_action(action)
-                self.random_product()
-                self.state = np.append(self.Map.flatten(), [self.width, self.length])
                 reward = 1
+                self.state = np.append(self.Map.flatten(), [self.width, self.length])
+                self.random_product()
                 self.ct2 = 0
             else:
+                self.ct2 += 1
                 reward = -1
         else:
             reward = -1
-        info = {'score' : score}
+        # 이부분 변경 rew안나와서 04 16 3:23
+        # info = {'score' : score}
         
-        return self.state, reward, terminated, info
+        return self.state, reward, terminated, {} # info
 
     def reset(self):
         self.ct2 = 0
         self.filled_map = 0
-        
         self.random_product()
-        
+        self.rotate=False
         # 매번 다른 state를 주고 학습 시킬 수 있음 !
-        self.state = np.append(self.Map.flatten(), [self.width, self.length])
-        
         # Map of warehouse
         self.Map = np.zeros(self.mapsize, dtype=int)
-        self.rotate=False
-        
-        return np.array(self.state)
+        self.state = np.append(self.Map.flatten(), [self.width, self.length])
+
+        return self.state # np.array(self.state)
 
     def render(self, action, reward, mode='human'):
         # action2 = action[::-1]

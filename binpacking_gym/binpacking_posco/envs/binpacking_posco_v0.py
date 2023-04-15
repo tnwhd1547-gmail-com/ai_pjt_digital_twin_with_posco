@@ -1,6 +1,6 @@
 import sys
 sys.path.append('./binpacking_posco/envs/')
-sys.path.append('./binpacking_posco/envs/')
+# sys.path.append('./binpacking_posco/envs/')
 import numpy as np
 import gym
 from gym import spaces
