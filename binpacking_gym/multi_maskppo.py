@@ -42,8 +42,10 @@ def make_env(env_id, rank, seed=0):
 
 if __name__ == '__main__':
     
+    #  기존환경 v0 mask ppo 돌릴때 binpacking_posco-v00
+    # 새로 만든 환경 v2 mask ppo binpacking_myposco-v2
     # Running
-    env_id = 'binpacking_posco-v00'
+    env_id = 'binpacking_myposco-v2'
     num_envs = 8
     
     env = SubprocVecEnv([make_env(env_id, i) for i in range(num_envs)])
@@ -52,9 +54,9 @@ if __name__ == '__main__':
     # 액션가면 지선생이 안씀
     
     # a new action_mask_fn kwarg, as it did in an earlier draft.
-    # model = MaskablePPO(MaskableActorCriticPolicy, env=env, tensorboard_log='./tensorboard/multi_maskppo',verbose=1)
+    model = MaskablePPO(MaskableActorCriticPolicy, env=env, tensorboard_log='./tensorboard/multi_maskppo_myv2',verbose=1)
     # 기존 모델 로드 부분 주석처리함
-    model = MaskablePPO.load('C:/workspace/pba/r2dm/ai_pjt_digital_twin_with_posco/binpacking_gym/model/mask_ppo_v4_1', env=env, tensorboard_log='C:/workspace/pba/r2dm/ai_pjt_digital_twin_with_posco/binpacking_gym/tensorboard/multi_maskppo')
+    # model = MaskablePPO.load('C:/workspace/pba/r2dm/ai_pjt_digital_twin_with_posco/binpacking_gym/model/mask_multi_ppo_model_10e6', env=env, tensorboard_log='C:/workspace/pba/r2dm/ai_pjt_digital_twin_with_posco/binpacking_gym/tensorboard/multi_maskppo_myv2')
     
     # model = PPO(MaskableMlpPolicy, env, verbose=1, tensorboard_log='C:/workspace/pba/r2dm/ai_pjt_digital_twin_with_posco/binpacking_gym/tensorboard/multi_maskppo')
     
@@ -70,9 +72,9 @@ if __name__ == '__main__':
                     render=False,
                     log_path = './log/',
                     verbose=1)
-    model.learn(total_timesteps=int(2e5), #callback=eval_callback,
-                #log_interval=10,
+    model.learn(total_timesteps=int(2e5), callback=eval_callback,
+                log_interval=10,
                 progress_bar=True)
     
     # Save
-    model.save('./model/mask_multi_ppo_model4.zip')
+    model.save('./model/mask_multi_myppo_v2.zip')

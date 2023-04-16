@@ -80,7 +80,7 @@ for e in range(EPISODES):
                 # plt.plot(episodes, scores, 'b')
                 # plt.savefig('savefig_default.png')
                 max_fill = max(max_fill, info['box_filled'])
-                if info['box_filled']>=84:
+                if info['box_filled']>=80:
                     memory['box']
                     print("episode:", e,"  score:", score, 'box_count : ',len(memory['action']) ,"box_filled : ",info['box_filled'] ,"  memory action:",
                         memory['action'], "box :", memory['box'][:-1])
