@@ -1,6 +1,6 @@
 import sys
 sys.path.append('./binpacking_posco/envs/')
-# sys.path.append('./binpacking_posco/envs/')
+sys.path.append('./binpacking_posco/envs/')
 import numpy as np
 import gym
 from gym import spaces
@@ -14,7 +14,7 @@ Product : Random
 불가능 : -1
 """
 
-class binpacking_posco_v0(gym.Env):
+class binpacking_poscoppo_v2(gym.Env):
     """
     Custom Env for 2D-bin Packing
     """
@@ -36,9 +36,9 @@ class binpacking_posco_v0(gym.Env):
         print_Map : Action시 마다 Map 출력 / True (bool)
         rendering : False / (bool)
         """
-        super(binpacking_posco_v0, self).__init__()
+        super(binpacking_poscoppo_v2, self).__init__()
         # Params
-        self.ct2_threshold = kwargs.get('ct2_threshold', 20) # 불가능한 행동의 제한 수
+        self.ct2_threshold = kwargs.get('ct2_threshold', 30) # 불가능한 행동의 제한 수
         self.mapsize = kwargs.get('mapsize', [10, 10])
         self.print_Map = kwargs.get('print_Map', True)
         self.threshold = kwargs.get('threshold', 0.6) # Default = 0.6 # 이 비율의 공간을 채웠을 때 더 많은 리워드를 줌
@@ -163,5 +163,5 @@ class binpacking_posco_v0(gym.Env):
         
     #     return act
 
-class binpacking_posco_v1(binpacking_posco_v0):
+class binpacking_posco_v1(binpacking_poscoppo_v2):
     pass
