@@ -13,7 +13,7 @@ def get_action_mask(env):
     """
     return env.mask_action()
 
-env = gym.make('binpacking_poscopredict-v00', print_Map=False)  # Initialize env
+env = gym.make('binpacking_poscopred-v1', print_Map=False)  # Initialize env
 env = ActionMasker(env, get_action_mask)
 
 model = MaskablePPO.load('./model/mask_multi_ppo_model_10e6', env=env, tensorboard_log='./tensorboard/my_maskppo')
@@ -39,18 +39,18 @@ for e in range(EPISODES):
         memory = {'action':[], 'box':[]}
         # env 초기화
         state = env.reset()
-        state = np.reshape(state, [1, state_size])
+        # state = np.reshape(state, [1, state_size])
         if end==1:
             break
         while not done:
             action = env.action_space.sample()
             # 선택한 행동으로 환경에서 한 타임스텝 진행
             next_state, reward, done, info = env.step(action)
-            next_state = np.reshape(next_state, [1, state_size])
+            # next_state = np.reshape(next_state, [1, state_size])
             
             # if agent.render:
                 # env.render()
-            # env.render(action, reward=reward)
+            env.render(action, reward=reward)
 
             # 리플레이 메모리에 샘플 <s, a, r, s'> 저장
             if not memory['box']:
@@ -66,7 +66,7 @@ for e in range(EPISODES):
             #     model.train_model()
 
             score += reward
-            state = next_state
+            # state = next_state
 
             if done:
                 # 각 에피소드마다 타깃 모델을 모델의 가중치로 업데이트
@@ -80,7 +80,7 @@ for e in range(EPISODES):
                 # plt.plot(episodes, scores, 'b')
                 # plt.savefig('savefig_default.png')
                 max_fill = max(max_fill, info['box_filled'])
-                if info['box_filled']>=80:
+                if info['box_filled']>=84:
                     memory['box']
                     print("episode:", e,"  score:", score, 'box_count : ',len(memory['action']) ,"box_filled : ",info['box_filled'] ,"  memory action:",
                         memory['action'], "box :", memory['box'][:-1])

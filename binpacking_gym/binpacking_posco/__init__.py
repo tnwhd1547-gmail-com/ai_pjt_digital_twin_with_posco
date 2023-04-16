@@ -33,6 +33,11 @@ register(
 )
 
 register(
+        id='binpacking_poscopred-v1',
+        entry_point='binpacking_posco.envs:binpacking_poscopred_v1',
+)
+
+register(
         id='binpacking_posco-v2',
         entry_point='binpacking_posco.envs:binpacking_posco_v2',
 )
