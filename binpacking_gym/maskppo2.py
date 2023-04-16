@@ -21,9 +21,10 @@ env = ActionMasker(env, get_action_mask)  # Wrap to enable masking
 # with ActionMasker. If the wrapper is detected, the masks are automatically
 # retrieved and used when learning. Note that MaskablePPO does not accept
 # a new action_mask_fn kwarg, as it did in an earlier draft.
-model = MaskablePPO(MaskableActorCriticPolicy, env, verbose=1, tensorboard_log='C:/workspace/pba/r2dm/ai_pjt_digital_twin_with_posco/binpacking_gym/tensorboard/my_maskppo')
+# model = MaskablePPO(MaskableActorCriticPolicy, env, verbose=1, tensorboard_log='C:/workspace/pba/r2dm/ai_pjt_digital_twin_with_posco/binpacking_gym/tensorboard/my_maskppo')
+model = MaskablePPO.load('C:/workspace/pba/r2dm/ai_pjt_digital_twin_with_posco/binpacking_gym/model/mask_ppo_v4_1', env=env, tensorboard_log='C:/workspace/pba/r2dm/ai_pjt_digital_twin_with_posco/binpacking_gym/tensorboard/my_maskppo')
 model.learn(2*int(5e6), progress_bar=True)
-model.save('C:/workspace/pba/r2dm/ai_pjt_digital_twin_with_posco/binpacking_gym/model/my_mask_ppo_v00')
+model.save('C:/workspace/pba/r2dm/ai_pjt_digital_twin_with_posco/binpacking_gym/model/my_mask_ppo_v00_2e5')
 # Note that use of masks is manual and optional outside of learning,
 # so masking can be "removed" at testing time
 # model.predict(observation, action_masks=valid_action_array)

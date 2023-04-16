@@ -13,8 +13,18 @@ register(
 )
 
 register(
+        id='binpacking_poscoppo-v2',
+        entry_point='binpacking_posco.envs:binpacking_poscoppo_v2',
+)
+
+register(
         id='binpacking_posco-v00',
         entry_point='binpacking_posco.envs:binpacking_posco_v00',
+)
+
+register(
+        id='binpacking_poscopredict-v00',
+        entry_point='binpacking_posco.envs:binpacking_poscopredict_v00',
 )
 
 register(
