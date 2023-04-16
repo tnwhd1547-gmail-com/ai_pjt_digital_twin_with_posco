@@ -11,3 +11,7 @@
 ### maskableppo를 돌리려면
 
 - binpacking_gym 내부에 maskable_ppo.py(binpacking_posco_v00) 돌리면 가능
+
+### maskable_ppo의 결과를 뽑아내려면
+
+- maskppo_predict.py(binpacking_poscopredict-v00)를 돌린다.
