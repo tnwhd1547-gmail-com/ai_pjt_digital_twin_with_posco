@@ -2,9 +2,9 @@ import sys
 sys.path.append('./binpacking_posco/envs/')
 import numpy as np
 from gym import spaces
-from .binpacking_posco_v00 import binpacking_posco_v00
+from .binpacking_poscopredict_v00 import binpacking_poscopredict_v00
 
-class binpacking_poscopred_v1(binpacking_posco_v00):
+class binpacking_poscopred_v1(binpacking_poscopredict_v00):
     # 22개
     products = [(3,3), (3,3), (3,3), (1,1), (1,1), (1,1),
                 (3,3), (3,3), (3,3), (1,1), (1,1), (1,1),
@@ -54,7 +54,7 @@ class binpacking_poscopred_v1(binpacking_posco_v00):
         
         terminated = bool(
             self.ct2 == self.ct2_threshold
-            or self.filled_map > 80 # 80% 이상
+            or self.filled_map >= 80 # 80% 이상
             or self.prod_idx == 22
         )
         score = 0

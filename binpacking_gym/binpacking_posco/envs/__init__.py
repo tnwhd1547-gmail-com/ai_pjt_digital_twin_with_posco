@@ -4,6 +4,7 @@ from .binpacking_poscopredict_v00 import binpacking_poscopredict_v00
 from .binpacking_posco_v1 import binpacking_posco_v1
 from .binpacking_poscopred_v1 import binpacking_poscopred_v1
 from .binpacking_posco_v2 import binpacking_posco_v2
+from .binpacking_myposco_v2 import binpacking_myposco_v2
 from .binpacking_posco_v3 import binpacking_posco_v3
 from .binpacking_posco_v4 import binpacking_posco_v4
 from .binpacking_poscoppo_v1 import binpacking_poscoppo_v1

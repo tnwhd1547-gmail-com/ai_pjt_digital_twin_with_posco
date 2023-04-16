@@ -13,6 +13,11 @@ register(
 )
 
 register(
+        id='binpacking_myposco-v1',
+        entry_point='binpacking_posco.envs:binpacking_myposco_v1',
+)
+
+register(
         id='binpacking_poscoppo-v2',
         entry_point='binpacking_posco.envs:binpacking_poscoppo_v2',
 )
@@ -40,6 +45,11 @@ register(
 register(
         id='binpacking_posco-v2',
         entry_point='binpacking_posco.envs:binpacking_posco_v2',
+)
+
+register(
+        id='binpacking_myposco-v2',
+        entry_point='binpacking_posco.envs:binpacking_myposco_v2',
 )
 
 register(

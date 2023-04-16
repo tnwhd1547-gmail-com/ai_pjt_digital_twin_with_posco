@@ -166,6 +166,7 @@ class binpacking_posco_v00(binpacking_posco_v0):
         # action2 = action[::-1]
         print (f'Action :{action}, box :{self.width}, {self.length}, reward : {reward}')
         print(self.ct2, self.ct2_threshold, 'map_filled : ', sum(sum(self.Map)))
+        self.print_Map = True
         if self.print_Map:
             print (self.Map)
     
