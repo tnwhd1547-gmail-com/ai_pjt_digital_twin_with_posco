@@ -6,8 +6,9 @@ from sb3_contrib.common.wrappers import ActionMasker
 from sb3_contrib.ppo_mask import MaskablePPO
 from stable_baselines3.common.vec_env import SubprocVecEnv
 from stable_baselines3.common.utils import set_random_seed
-from stable_baselines3.common.callbacks import EvalCallback
+from stable_baselines3.common.callbacks import EvalCallback, CallbackList, CheckpointCallback
 from acm import mask_fn
+
 
 
 def make_env(env_id, rank, seed=0):
@@ -70,9 +71,15 @@ if __name__ == '__main__':
     eval_callback = EvalCallback(eval_env=gym.make(env_id,  ct2_threshold=20, print_Map=False),
                     eval_freq=100,
                     render=False,
-                    log_path = './log/',
+                    best_model_save_path = './logs/best_model',
+                    log_path = './log/results',
                     verbose=1)
-    model.learn(total_timesteps=int(2e5), callback=eval_callback,
+    
+    # Checkpoint_Callback = CheckpointCallback(save_freq=1000, save_path='./logs/', verbose=1)
+    
+    # callback = CallbackList([Checkpoint_Callback, eval_callback])
+    
+    model.learn(total_timesteps=int(2e4), callback=eval_callback,
                 log_interval=10,
                 progress_bar=True)
     

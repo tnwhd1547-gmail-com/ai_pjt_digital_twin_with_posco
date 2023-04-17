@@ -15,12 +15,14 @@ def get_action_mask(env):
     현재 state에서 모든 action이 boolean으로 표현
     """
     return env.mask_action()
+# binpacking_posco-v00 사용시 
+# env = gym.make('binpacking_posco-v00', print_Map=False)
 
-env = gym.make('binpacking_posco-v00', print_Map=False)
+env = gym.make('binpacking_myposco-v2', print_Map=False)
 env = ActionMasker(env, get_action_mask)
     
 #model = MaskablePPO(MaskableActorCriticPolicy, env, verbose=1, tensorboard_log='./tensorboard/maskppo1')
-model = MaskablePPO.load('C:/workspace/pba/r2dm/ai_pjt_digital_twin_with_posco/binpacking_gym/model/mask_ppo_v4_1', env=env, tensorboard_log='C:/workspace/pba/r2dm/ai_pjt_digital_twin_with_posco/binpacking_gym/tensorboard/maskppo1')
+model = MaskablePPO.load('C:/workspace/pba/r2dm/ai_pjt_digital_twin_with_posco/binpacking_gym/model/mask_multi_myppo_v2_ver1', env=env, tensorboard_log='C:/workspace/pba/r2dm/ai_pjt_digital_twin_with_posco/binpacking_gym/tensorboard/maskppo1')
 # model.learn(2*int(2e6), progress_bar=True, log_interval=10)
 # model.save('C:/workspace/pba/r2dm/binpacking_gym/model/mask_ppo_v4_2')
 
