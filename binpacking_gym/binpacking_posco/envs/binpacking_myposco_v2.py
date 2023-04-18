@@ -122,12 +122,13 @@ class binpacking_myposco_v2(binpacking_posco_v0):
                 self.ct2 = 0
             else:
                 self.ct2 += 1
-                reward = -(self.length * self.width)/5
+                reward = -(self.length * self.width)/12
         else:
-            if sum(sum(self.Map)) >= 2500*self.fill_threshold:
+            if sum(sum(self.Map)) >= 2500*0.7:#self.fill_threshold:
                 reward = self.filled_map/5 # 80 - 100
             else:
-                reward = -(self.length * self.width)/5
+                reward = 0 #- 50
+            # 못채웠을때 - 점수 없앰
         info = {'score' : score}
         
         return self.state, reward, terminated, {}
