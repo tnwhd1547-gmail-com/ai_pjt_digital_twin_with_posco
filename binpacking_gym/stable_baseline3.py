@@ -17,7 +17,7 @@ check_env(env)
 
 #model = PPO('MlpPolicy', env, verbose=1)
 model = PPO.load('./ppo_model3', env=env, tensorboard_log='C:/workspace/pba/r2dm/ai_pjt_digital_twin_with_posco/binpacking_gym/tensorboard/ppo1')
-model.learn(total_timesteps = int(2e6), progress_bar=True)
+model.learn(total_timesteps = int(2e7), progress_bar=True)
 model.save('./model/ppo_model3')
 #del model # remove to demonstrate saving and loading
 mean_reward, std_reward = evaluate_policy(model, model.get_env(), n_eval_episodes=100)

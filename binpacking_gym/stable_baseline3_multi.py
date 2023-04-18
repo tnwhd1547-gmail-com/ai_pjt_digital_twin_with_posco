@@ -52,7 +52,7 @@ if __name__ == '__main__':
                                  render=False,
                                  log_path = './log/',
                                  verbose=1)
-    model.learn(total_timesteps=int(2e6), callback=eval_callback,
+    model.learn(total_timesteps=int(2e7), callback=eval_callback,
                 log_interval=10, progress_bar=True)
     
     # Save

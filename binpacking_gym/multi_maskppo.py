@@ -46,6 +46,7 @@ if __name__ == '__main__':
     #  기존환경 v0 mask ppo 돌릴때 binpacking_posco-v00
     # 새로 만든 환경 v2 mask ppo binpacking_myposco-v2
     # Running
+    
     env_id = 'binpacking_myposco-v2'
     num_envs = 8
     
